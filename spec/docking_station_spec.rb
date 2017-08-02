@@ -1,4 +1,4 @@
-require_relative '../lib/docking_station'
+require 'docking_station'
 require 'bike'
 
 
@@ -16,6 +16,18 @@ describe DockingStation do
 
   it "when docking a bike, the docking station notices" do
     expect(docking_station).to respond_to(:dock_bike)
+  end
+
+  it "knows how many spaces it has" do
+    expect(docking_station.spaces.is_a?(Fixnum)).to eq true
+  end
+
+  it "knows how many bikes it has" do
+    expect(docking_station.bikes.is_a?(Fixnum)).to eq true
+  end
+
+  it "stores bikes as an array" do
+    expect(docking_station.bike_array.is_a?(Array)).to eq true
   end
 
 end
