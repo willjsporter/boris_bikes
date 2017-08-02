@@ -14,9 +14,6 @@ class DockingStation
     # end
   end
 
-  def bike_array
-
-  end
 
 
   def release_bike
@@ -27,5 +24,8 @@ class DockingStation
   end
 
 
-
 end
+
+p asdf=DockingStation.new(6,5)
+p asdf.bike_array
+p asdf.bike_array.class

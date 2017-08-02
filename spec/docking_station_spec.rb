@@ -22,12 +22,28 @@ describe DockingStation do
     expect(docking_station.spaces.is_a?(Fixnum)).to eq true
   end
 
+  it "knows how many spaces it has" do
+    expect(docking_station.spaces).to eq 10
+  end
+
   it "knows how many bikes it has" do
     expect(docking_station.bikes.is_a?(Fixnum)).to eq true
   end
 
+  it "knows how many bikes it has" do
+    expect(docking_station.bikes).to eq 5
+  end
+
   it "stores bikes as an array" do
     expect(docking_station.bike_array.is_a?(Array)).to eq true
+  end
+
+  it "stores bikes as an array" do
+    expect(docking_station.bike_array[0..4].all?{|a| a.is_a?(Bike)}).to eq true
+  end
+
+  it "stores bikes as an array" do
+    expect(docking_station.bike_array[5..9].all?{|a| a.nil?}).to eq true
   end
 
 end
