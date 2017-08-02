@@ -1,10 +1,17 @@
 require_relative '../lib/docking_station'
+require 'bike'
 
 
 describe DockingStation do
+
+  docking_station=DockingStation.new
+
   it "Recognises release_bike" do
-    docking_station=DockingStation.new
     expect(docking_station).to respond_to(:release_bike)
+  end
+
+  it "when release_bike called gives new Bike" do
+    expect(docking_station.release_bike.nil?).should be_true
   end
 
 end
