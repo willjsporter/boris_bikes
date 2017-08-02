@@ -1,3 +1,5 @@
+
+
 require_relative '../lib/docking_station'
 require 'bike'
 
@@ -11,7 +13,7 @@ describe DockingStation do
   end
 
   it "when release_bike called gives new Bike" do
-    expect(docking_station.release_bike.nil?).should be_true
+    expect(docking_station.release_bike.is_a?(Bike)).to eq true
   end
 
 end
