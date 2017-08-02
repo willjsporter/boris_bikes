@@ -7,11 +7,11 @@ class DockingStation
     @spaces = spaces
     @bikes = bikes
     @bike_array = Array.new(spaces)
-    # i = 0
-    # while i < bikes
-    #   @bike_array << Bike.new
-    #   i += 1
-    # end
+    i = 0
+    while i < bikes
+      @bike_array[i] = Bike.new
+      i += 1
+    end
   end
 
 
@@ -21,6 +21,13 @@ class DockingStation
   end
 
   def dock_bike
+    first_space = @bike_array.index(nil)
+      if first_space
+        @bike_array[first_space] = Bike.new
+        "bike has been docked"
+      else
+        "docking station is full"
+    end
   end
 
 
