@@ -1,9 +1,9 @@
-#require 'bike'
+require_relative './bike'
 class DockingStation
 
+  @@DEFAULT_CAPACITY = 20
   attr_reader(:spaces, :bikes, :bike_array)
-
-  def initialize(spaces = 10, bikes = 5)
+  def initialize(spaces =@@DEFAULT_CAPACITY, bikes = 5)
     @spaces = spaces
     @bikes = bikes
     @bike_array = Array.new(spaces)
@@ -14,25 +14,45 @@ class DockingStation
     end
   end
 
-
+  def bike_count
+    @bike_array.count {|a| a.is_a?(Bike)}
+  end
 
   def release_bike
-    p Bike.new
+      if empty?
+        fail "No bikes available"
+      else
+        b1index=@bike_array.index{|a| a.is_a?(Bike)}
+        releasedbike=@bike_array[b1index]; @bike_array[b1index]=nil; return releasedbike
+      end
   end
 
   def dock_bike
-    first_space = @bike_array.index(nil)
-      if first_space
-        @bike_array[first_space] = Bike.new
-        "bike has been docked"
+      @first_space = @bike_array.index(nil)
+      if full?
+        raise "docking station is full"
       else
-        "docking station is full"
-    end
+        @bike_array[@first_space] = Bike.new
+        "bike has been docked"
+      end
   end
 
-
+def full?
+  !@first_space
 end
 
-p asdf=DockingStation.new(6,5)
-p asdf.bike_array
-p asdf.bike_array.class
+def empty?
+  bike_array.all?{|a| a.nil?}
+end
+
+private :full?, :empty?
+end
+
+
+asdf=DockingStation.new
+asdf.bikes
+asdf.dock_bike
+asdf.dock_bike
+p asdf.bike_count
+asdf.release_bike
+p asdf.bike_count

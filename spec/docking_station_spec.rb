@@ -23,7 +23,7 @@ describe DockingStation do
   end
 
   it "knows how many spaces it has" do
-    expect(docking_station.spaces).to eq 10
+    expect(docking_station.spaces).to eq docking_station.DEFAULT_CAPACITY
   end
 
   it "knows how many bikes it has" do
@@ -38,12 +38,14 @@ describe DockingStation do
     expect(docking_station.bike_array.is_a?(Array)).to eq true
   end
 
-  it "stores bikes as an array" do
-    expect(docking_station.bike_array[0..4].all?{|a| a.is_a?(Bike)}).to eq true
+docking_station1=DockingStation.new
+
+  it "stores each bike in a space in an array" do
+    expect(docking_station1.bike_array[0..4].all?{|a| a.is_a?(Bike)}).to eq true
   end
 
-  it "stores bikes as an array" do
-    expect(docking_station.bike_array[5..9].all?{|a| a.nil?}).to eq true
+  it "returns empty bike spaces as nil in bike_array" do
+    expect(docking_station1.bike_array[5..DEFAULT_CAPACITY].all?{|a| a.nil?}).to eq true
   end
 
   it "checks if there is a space" do
@@ -55,12 +57,20 @@ describe DockingStation do
   end
 
   it "adds a bike to the first empty space" do
+    docking_station.dock_bike
      expect(docking_station.bike_array[docking_station.bikes].is_a?(Bike)).to eq true
   end
 
+  docking_station2 = DockingStation.new(12,12)
+
   it "says it's full if there are no spaces" do
-    docking_station1 = DockingStation.new(12,12)
-    expect(docking_station1.dock_bike).to eq "docking station is full"
+    expect{docking_station2.dock_bike}.to raise_exception "docking station is full"
   end
+
+  it "won't let you get a new bike if there are no spaces" do
+    12.times do docking_station2.release_bike end
+    expect {docking_station2.release_bike}.to raise_error("No bikes available")
+  end
+
 
 end
