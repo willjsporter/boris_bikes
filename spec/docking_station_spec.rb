@@ -23,7 +23,7 @@ describe DockingStation do
   end
 
   it "knows how many spaces it has" do
-    expect(docking_station.spaces).to eq docking_station.DEFAULT_CAPACITY
+    expect(docking_station.spaces).to eq DockingStation::DEFAULT_CAPACITY
   end
 
   it "knows how many bikes it has" do
@@ -45,7 +45,7 @@ docking_station1=DockingStation.new
   end
 
   it "returns empty bike spaces as nil in bike_array" do
-    expect(docking_station1.bike_array[5..DEFAULT_CAPACITY].all?{|a| a.nil?}).to eq true
+    expect(docking_station1.bike_array[5..DockingStation::DEFAULT_CAPACITY].all?{|a| a.nil?}).to eq true
   end
 
   it "checks if there is a space" do

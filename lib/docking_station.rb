@@ -1,9 +1,9 @@
 require_relative './bike'
 class DockingStation
 
-  @@DEFAULT_CAPACITY = 20
+  DEFAULT_CAPACITY = 20
   attr_reader(:spaces, :bikes, :bike_array)
-  def initialize(spaces =@@DEFAULT_CAPACITY, bikes = 5)
+  def initialize(spaces =DEFAULT_CAPACITY, bikes = 5)
     @spaces = spaces
     @bikes = bikes
     @bike_array = Array.new(spaces)
