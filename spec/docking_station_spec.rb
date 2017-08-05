@@ -6,6 +6,12 @@ describe DockingStation do
 
   docking_station=DockingStation.new
 
+    let(:bike_good) {double :bike_good}
+    let(:bike_bad) {double :bike_bad}
+    #allow(bike_good).to receive(:not_working?).and_return(false)
+    #allow(bike_bad).to receive(:not_working?).and_return(true)
+
+
   it "Recognises release_bike" do
     expect(docking_station).to respond_to(:release_bike)
   end
@@ -53,18 +59,19 @@ docking_station1=DockingStation.new
   end
 
   it "tells you bike has been docked" do
-    expect(docking_station.dock_bike(Bike.new)).to eq "bike has been docked"
+    expect(docking_station.dock_bike(bike_good)).to eq "bike has been docked"
   end
 
   it "adds a bike to the first empty space" do
-    docking_station.dock_bike(Bike.new)
-     expect(docking_station.bike_array[docking_station.bikes].is_a?(Bike)).to eq true
+    allow(bike_good).to receive(:is_a?).and_return(true)
+    docking_station.dock_bike(bike_good)
+    expect(docking_station.bike_array[docking_station.bikes].is_a?(Bike)).to eq true
   end
 
   docking_station2 = DockingStation.new(12,12)
 
   it "says it's full if there are no spaces" do
-    expect{docking_station2.dock_bike(Bike.new)}.to raise_exception "docking station is full"
+    expect{docking_station2.dock_bike(:bike)}.to raise_exception "docking station is full"
   end
 
   it "won't let you get a new bike if there are no spaces" do
@@ -74,22 +81,31 @@ docking_station1=DockingStation.new
 
   docking_station4=DockingStation.new
   it "allows you to specify if a given bike is broken" do
-    docking_station4.dock_bike(Bike.new,true)
+    allow(bike_bad).to receive(:not_working?).and_return(true)
+    allow(bike_bad).to receive(:broken)
+    docking_station4.dock_bike(bike_bad,true)
     expect(docking_station4.bike_array[5].not_working?).to eq true
   end
 
-  docking_station=DockingStation.new(10,0)
-  docking_station.dock_bike(Bike.new,"asdf")
-  docking_station.dock_bike(Bike.new,"asdfd")
+
   it "raises an error if all bikes are broken" do
-    expect {docking_station4.release_bike}.to raise_error("All bikes are broken")
+    docking_station5=DockingStation.new(10,0)
+    allow(bike_bad).to receive(:not_working?).and_return(true)
+    allow(bike_bad).to receive(:broken)
+    docking_station5.dock_bike(bike_bad,true)
+    docking_station5.dock_bike(bike_bad,true)
+    expect {docking_station5.release_bike}.to raise_error("All bikes are broken")
   end
 
-  docking_station=DockingStation.new
-  docking_station.release_bike
-  docking_station.dock_bike(Bike.new,1234)
   it 'does not release broken bike and skips to a functioning one' do
-    expect (docking_station.bike_array[0].is_a?(Bike)&&docking_station.bike_array[1]==nil).to eq true
+    allow(bike_bad).to receive(:not_working?).and_return(true)
+    allow(bike_bad).to receive(:broken)
+    allow(bike_bad).to receive(:is_a?).and_return(true)
+    docking_station6=DockingStation.new
+    docking_station6.bike_array[0]=nil
+    docking_station6.dock_bike(bike_bad,1234)
+    docking_station6.release_bike
+    expect(docking_station6.bike_array[0].is_a?(Bike)&&docking_station6.bike_array[1]==nil).to eq true
   end
 
 

@@ -22,10 +22,12 @@ class DockingStation
       if empty?
         fail "No bikes available"
       else
-        b1index=@bike_array.index{|a| a.is_a?(Bike)}
-        releasedbike=@bike_array[b1index]
-        (raise "Bike is broken") if releasedbike.not_working?
-         @bike_array[b1index]=nil; return releasedbike
+        0.upto(@capacity-1) do |i|
+          releasedbike=@bike_array[i]#[b1index+i]
+          next if releasedbike==nil || releasedbike.not_working?
+          @bike_array[i]=nil; return releasedbike
+        end
+        raise "All bikes are broken"
       end
   end
 
@@ -50,11 +52,14 @@ end
 
 private :full?, :empty?
 end
-# 
+
+# asdf=DockingStation.new(10,0)
+# asdf.dock_bike(Bike.new, true)
+# p asdf.bike_array
 #
-# asdf=DockingStation.new(10,5)
-# p asdf.bikes
-# p asdf.dock_bike("asdf")
+# #asdf.release_bike
+# # p asdf.bikes
+# # p asdf.dock_bike("asdf")
 # asdf.dock_bike(Bike.new)
 # p asdf.bike_count
 # asdf.release_bike
